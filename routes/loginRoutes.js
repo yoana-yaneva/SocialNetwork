@@ -5,11 +5,12 @@ const router = express.Router();
 app.set("view engine", "pug");
 app.set("views", "views");
 
-
 router.get("/", (req, res, next) => {
+
     let payload = {
         pageTitle: "Login" // DONT FORGET REGISTER PAGE
     }
+    
     res.status(200).render("login", payload);
 })
 
