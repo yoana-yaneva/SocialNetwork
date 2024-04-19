@@ -8,7 +8,7 @@ app.set("views", "views");
 router.get("/", (req, res, next) => {
 
     let payload = {
-        pageTitle: "Login" // DONT FORGET REGISTER PAGE
+        pageTitle: "Login"
     }
     
     res.status(200).render("login", payload);
