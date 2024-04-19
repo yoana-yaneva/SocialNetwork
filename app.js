@@ -4,6 +4,14 @@ const port = 3003;
 const middleware = require('./middleware');
 const path = require('path');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+mongoose.connect("mongodb+srv://yanevay6:H6qjldjKCMp9ukK6@socialnetworkcluster.ll3jldf.mongodb.net/?retryWrites=true&w=majority&appName=SocialNetworkCluster")
+.then(()=> {
+    console.log("Database connection successful");
+})
+.catch((error)=> {
+    console.log("Database connection ERROR "+ error);
+})
 
 const server = app.listen(port, () => console.log("Server up and running at port: " + port));
 
