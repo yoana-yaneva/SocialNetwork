@@ -1,5 +1,17 @@
 :root {
     --blue: #102C57;
+    --grey: rgb(230, 236, 240);
+    --spacing: 15px;
+}
+
+body {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+h1 {
+    font-size: 19px;
+    font-weight: 800;
+    margin: 0;
 }
 
 a {
@@ -35,6 +47,24 @@ nav a:hover {
 }
 
 .mainSection {
-    background-color: aquamarine;
+    padding: 0;
+    border-left: 1px solid var(--grey);
+    border-right: 1px solid var(--grey);
+    display: flex;
+    flex-direction: column;
+}
+
+.titleContainer {
+    height: 53px;
+    padding: 0 var(--spacing);
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--grey);
+    flex-shrink: 0;
+}
+
+.titleContainer h1 {
+
+    flex: 1;
 }
 

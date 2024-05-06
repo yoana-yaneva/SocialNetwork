@@ -23,9 +23,11 @@ app.use(session({
 //Routes
 const loginRoute = require('./routes/loginRoutes');
 const registerRoute = require('./routes/registerRoutes');
+const logoutRoute = require('./routes/logoutRoutes');
 
 app.use("/login", loginRoute);
 app.use("/register", registerRoute);
+app.use("/logout", logoutRoute);
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
