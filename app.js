@@ -25,9 +25,14 @@ const loginRoute = require('./routes/loginRoutes');
 const registerRoute = require('./routes/registerRoutes');
 const logoutRoute = require('./routes/logoutRoutes');
 
+//API routes
+const postsApiRoute = require('./routes/api/posts');
+
 app.use("/login", loginRoute);
 app.use("/register", registerRoute);
 app.use("/logout", logoutRoute);
+
+app.use("/api/posts", postsApiRoute);
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
