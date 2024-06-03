@@ -51,6 +51,12 @@ nav a:hover {
     border: 1px solid #ddd;
 }
 
+button {
+    background-color: transparent;
+    border: none;
+    color: #3C5B6F;
+}
+
 .mainSection {
     padding: 0;
     border-left: 1px solid var(--grey);
@@ -114,3 +120,55 @@ nav a:hover {
     background-color: var(--blueLight);
 }
 
+.post {
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing);
+    cursor: pointer;
+    border-bottom: 1px solid var(--grey);
+    flex-shrink: 0;
+}
+
+.mainContentContainer {
+    flex: 1;
+    display: flex;
+}
+
+.postContentContainer {
+    padding-left: var(--spacing);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.username,
+.date {
+    color: #3C5B6F;
+}
+
+.displayName {
+    font-weight: 700
+}
+
+.postFooter {
+    display: flex;
+    align-items: center;
+}
+
+.postFooter .postButtonContainer {
+    display: flex;
+    flex: 1;
+}
+
+.postFooter .postButtonContainer button {
+    padding: var(--spacing);
+}
+
+.header a:hover {
+    text-decoration: underline;
+}
+
+.header a,
+.header span {
+    padding-right: 5px;
+}
