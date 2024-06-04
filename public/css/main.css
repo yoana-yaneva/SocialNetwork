@@ -181,3 +181,17 @@ button span {
 .postButtonContainer.red button.active{
     color: rgb(226, 34, 94);
 }
+
+.postButtonContainer.red button:hover{
+    color: rgb(226, 34, 94);
+    background-color: rgba(226, 34, 94, 0.1);
+}
+
+.postButtonContainer.green button.active{
+    color: rgb(23, 191, 99);
+}
+
+.postButtonContainer.green button:hover{
+    color: rgb(23, 191, 99);
+    background-color: rgba(23, 191, 99, 0.1);
+}

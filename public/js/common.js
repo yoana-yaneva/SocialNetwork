@@ -57,6 +57,30 @@ $(document).on("click", ".likeButton", (event) => {
     })
 })
 
+$(document).on("click", ".retweetButton", (event) => {
+    let button = $(event.target);
+    let postId = getPostIdFromElement(button);
+
+    if (postId === undefined) {
+        return;
+    };
+
+    $.ajax({
+        url: `/api/posts/${postId}/retweet`,
+        type: "POST",
+        success: (postData) => {
+            button.find("span").text(postData.retweetUsers.length || "");
+
+            if (postData.retweetUsers.includes(userLoggedIn._id)) {
+                button.addClass("active")
+            } else {
+                button.removeClass("active")
+            }
+        }
+    })
+})
+
+
 function getPostIdFromElement(element) {
     let isRoot = element.hasClass("post")
     let rootElement = isRoot ? element : element.closest(".post");
@@ -101,8 +125,9 @@ function createPostHtml(postData) {
                         </button>
                     </div>
                     <div class='postButtonContainer green'>
-                        <button class='repost'>
+                        <button class='retweetButton'>
                             <i class="fa-solid fa-retweet"></i>
+                            <span>${postData.retweetUsers.length || ""}</span>
                         </button>
                     </div>
                     <div class='postButtonContainer red'>
