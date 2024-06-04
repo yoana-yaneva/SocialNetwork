@@ -9,6 +9,7 @@ const UserSchema = new Schema({
     email: { type: String, required: true, trim: true, unique: true },
     password: { type: String, required: true },
     profilePic: { type: String, default: "/images/avatar.png" },
+    likes: [{ type: Schema.Types.ObjectId, ref: 'User' }]
 }, { timestamps: true });
 
 let User = mongoose.model('User', UserSchema);
