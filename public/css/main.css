@@ -86,10 +86,19 @@ button span {
 .postFormContainer {
     display: flex;
     padding: var(--spacing);
-    border-bottom: 5px solid rgb(230, 236, 240);
+    border-bottom: 2px solid rgb(230, 236, 240);
     flex-shrink: 0;
 }
 
+.modal .postFormContainer {
+    border: none;
+    padding: 0;
+    padding-top: var(--spacing);
+}
+
+.modal .post {
+    padding: 0 0 var(--spacing) 0;
+}
 .userImageContainer {
     width: 50px;
     height: 50px;
@@ -178,20 +187,95 @@ button span {
     padding-right: 5px;
 }
 
-.postButtonContainer.red button.active{
-    color: rgb(226, 34, 94);
+.postButtonContainer button {
+    padding: 10px 20px; /* Add padding for better spacing */
+    border-radius: 8px; /* Rounded corners */
+    border: none; /* Remove default border */
+    cursor: pointer; /* Change cursor on hover */
+    transition: color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
 }
 
-.postButtonContainer.red button:hover{
-    color: rgb(226, 34, 94);
-    background-color: rgba(226, 34, 94, 0.1);
+.postButtonContainer.red button.active {
+    color: #FF9EAA;
 }
 
-.postButtonContainer.green button.active{
-    color: rgb(23, 191, 99);
+.postButtonContainer.red button:hover {
+    color: #FF9EAA;
+    margin-top: var(--spacing);
+    background-color: rgba(255, 158, 170, 0.1);
+    box-shadow: 0 4px 8px rgba(255, 158, 170, 0.3);
 }
 
-.postButtonContainer.green button:hover{
-    color: rgb(23, 191, 99);
-    background-color: rgba(23, 191, 99, 0.1);
+/* Green Button Styles */
+.postButtonContainer.green button.active {
+    color: #80B9AD;
+}
+
+.postButtonContainer.green button:hover {
+    color: #80B9AD;
+    margin-top: var(--spacing);
+    background-color: rgba(128, 185, 173, 0.1);
+    box-shadow: 0 4px 8px rgba(128, 185, 173, 0.3);
+}
+
+/* Blue Button Styles */
+.postButtonContainer.blue button.active {
+    color: #4A90E2;
+}
+
+.postButtonContainer.blue button:hover {
+    color: #4A90E2;
+    background-color: rgba(74, 144, 226, 0.1);
+    box-shadow: 0 4px 8px rgba(74, 144, 226, 0.3);
+}
+
+/* General Styles for Reply */
+.postButtonContainer.orange button.active {
+    color: #F5A623;
+}
+
+.postButtonContainer.orange button:hover {
+    color: #F5A623;
+    background-color: rgba(245, 166, 35, 0.1);
+    box-shadow: 0 4px 8px rgba(245, 166, 35, 0.3);
+}
+
+.postActionContainer {
+    padding-left: 35px;
+    font-size: 13px;
+    margin-bottom: 10px;
+    color: var(--blueLight);
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.postActionContainer .fa-retweet {
+    padding-right: 10px;
+}
+
+.postActionContainer::before {
+    color: var(--blueLight);
+    font-weight: bold;
+}
+
+.postActionContainer:hover {
+    color: var(--blueDark); 
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); 
+}
+
+.postActionContainer .username::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background: var(--blueDark);
+    transition: width 0.3s;
+}
+
+.replyFlag {
+    margin-bottom: 5px;
+
+}
+
+.replyFlag a {
+    color:#4A90E2
 }
