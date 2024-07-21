@@ -279,3 +279,9 @@ button span {
 .replyFlag a {
     color:#4A90E2
 }
+
+.post.activePostClass .postBody, 
+.post.activePostClass .postFooter{
+    font-size: 23px;
+    background-color: rgba(60, 91, 111, 0.5);
+}

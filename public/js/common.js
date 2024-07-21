@@ -54,7 +54,7 @@ $("#replyModal").on("show.bs.modal", (event) => {
     $("#submitReplyButton").data("id", postId);
 
     $.get("/api/posts/" + postId, results => {
-        outputPosts(results, $("#originalPostContainer"))
+        outputPosts(results.postData, $("#originalPostContainer"))
     })
 })
 
@@ -109,6 +109,15 @@ $(document).on("click", ".retweetButton", (event) => {
     })
 })
 
+$(document).on("click", ".post", (event) => {
+    let element = $(event.target);
+    let postId = getPostIdFromElement(element);
+
+    if (postId !== undefined && !element.is("button")) {
+        window.location.href = '/posts/' + postId;
+    }
+})
+
 function getPostIdFromElement(element) {
     let isRoot = element.hasClass("post")
     let rootElement = isRoot == true ? element : element.closest(".post");
@@ -119,7 +128,7 @@ function getPostIdFromElement(element) {
     return postId;
 }
 
-function createPostHtml(postData) {
+function createPostHtml(postData, activePost = false) {
 
     if (postData == null) return alert("Post object is null");
 
@@ -139,13 +148,15 @@ function createPostHtml(postData) {
     let likeButtonActiveClass = postData.likes.includes(userLoggedIn._id) ? "active" : "";
     let retweetButtonActiveClass = postData.retweetUsers.includes(userLoggedIn._id) ? "active" : ""
 
+    let activePostClass = activePost ? "activePost" : ""
+
     let retweetText = '';
     if (isRetweet) {
         retweetText = `<i class="fa-solid fa-retweet"></i><span>Retweeted by <a href ='/profile/${retweetedBy}'>${retweetedBy}</a></span>`
     }
 
     let replyFlag = "";
-    if (postData.replyTo) {
+    if (postData.replyTo && postData.replyTo._id) {
 
         if (!postData.replyTo._id) {
             return alert("Reply to is not populated");
@@ -161,7 +172,7 @@ function createPostHtml(postData) {
 
     }
 
-    return `<div class='post' data-id='${postData._id}'>
+    return `<div class='post ${activePostClass}' data-id='${postData._id}'>
         <div class='postActionContainer'>
             ${retweetText}
         </div>
@@ -255,4 +266,21 @@ function outputPosts(results, container) {
     if (results.length == 0) {
         container.append("<span class='noResults'>Nothing to see here.</span>")
     }
+}
+
+function outputPostsWithReplies(results, container) {
+    container.html("");
+
+    if (results.replyTo !== undefined && (results.replyTo._id !== undefined)) {
+        let html = createPostHtml(results.replyTo);
+        container.append(html)
+    }
+
+    let mainPostHtml = createPostHtml(results.postData, true);
+    container.append(mainPostHtml)
+
+    results.replies.forEach(result => {
+        let html = createPostHtml(result);
+        container.append(html)
+    });
 }
