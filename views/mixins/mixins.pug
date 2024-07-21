@@ -1,10 +1,10 @@
 mixin createPostForm(userLoggedIn)
-    .postFormContainer 
-        .userImageContainer 
+    .postFormContainer
+        .userImageContainer
             img(src=userLoggedIn.profilePic, alt="User's profile picture")
         .textareaContainer
             textarea#postTextarea(placeholder="What's happening?")
-            .buttonsContainer 
+            .buttonsContainer
                 button#submitPostButton(disabled="") Post
 
 mixin createReplyModal(userLoggedIn)
@@ -17,11 +17,29 @@ mixin createReplyModal(userLoggedIn)
                     span(aria-hidden='true') &times;
                 .modal-body
                     #originalPostContainer
-                    .postFormContainer 
-                        .userImageContainer 
+                    .postFormContainer
+                        .userImageContainer
                             img(src=userLoggedIn.profilePic, alt="User's profile picture")
                         .textareaContainer
                             textarea#replyTextarea(placeholder="What's happening?")
                 .modal-footer
                     button.btn.btn-secondary(type='button', data-dismiss='modal') Close
                     button#submitReplyButton.btn.btn-primary(type='button', disabled="") Reply
+
+mixin createDeletePostModal()
+    #deletePostModal.modal(tabindex='-1', role='dialog', aria-labelledby='deletePostModalLabel')
+        .modal-dialog(role='document')
+            .modal-content
+                .modal-header
+                    h5#deletePostModalLabel.modal-title Delete Post
+                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                    span(aria-hidden='true') &times;
+                .modal-body 
+                    p You won't be able to delete this
+                .modal-footer
+                    button.btn.btn-secondary(type='button', data-dismiss='modal') Close
+                    button#deletePostButton.btn.btn-primary(type='button') Delete Post
+
+mixin createPostModals(userLoggedIn)
+    +createReplyModal(userLoggedIn)
+    +createDeletePostModal()

@@ -62,14 +62,31 @@ $("#replyModal").on("hidden.bs.modal", () => {
     $("#originalPostContainer").html("");
 })
 
+$("#deletePostModal").on("show.bs.modal", (event) => {
+    var button = $(event.relatedTarget);
+    var postId = getPostIdFromElement(button);
+    $("#deletePostButton").data("id", postId);
+
+})
+
+$("#deletePostButton").click((event) => {
+    let postId = $(event.target).data("id");
+
+    $.ajax({
+        url: `/api/posts/${postId}`,
+        type: "DELETE",
+        success: () => {
+            location.reload();
+        }
+    })
+
+})
 
 $(document).on("click", ".likeButton", (event) => {
     let button = $(event.target);
     let postId = getPostIdFromElement(button);
 
-    if (postId === undefined) {
-        return;
-    };
+    if (postId === undefined) return;
 
     $.ajax({
         url: `/api/posts/${postId}/like`,
@@ -172,6 +189,11 @@ function createPostHtml(postData, activePost = false) {
 
     }
 
+    let buttons = "";
+    if (postData.postedBy._id == userLoggedIn._id) {
+        buttons = `<button data-id="${postData._id}" data-toggle="modal" data-target="#deletePostModal"><i class='fa-solid fa-trash'></i></button>`;
+    }
+
     return `<div class='post ${activePostClass}' data-id='${postData._id}'>
         <div class='postActionContainer'>
             ${retweetText}
@@ -185,6 +207,7 @@ function createPostHtml(postData, activePost = false) {
                     <a href='/profile/${postedBy.username}' class='displayName'>${displayName}</a>
                     <span class='username'>@${postedBy.username}</span>
                     <span class='date'>${timestamp}</span>
+                    ${buttons}
                 </div>
                 ${replyFlag}
                 <div class='postBody'>

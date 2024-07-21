@@ -160,6 +160,10 @@ button span {
     color: #3C5B6F;
 }
 
+.username {
+    flex: 1;
+}
+
 .displayName {
     font-weight: 700
 }
@@ -281,7 +285,11 @@ button span {
 }
 
 .post.activePostClass .postBody, 
-.post.activePostClass .postFooter{
+.post.activePostClass .postFooter {
     font-size: 23px;
     background-color: rgba(60, 91, 111, 0.5);
+}
+
+.postContentContainer .header {
+    display: flex;
 }
