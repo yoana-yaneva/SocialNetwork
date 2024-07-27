@@ -81,6 +81,8 @@ button span {
     align-items: center;
     border-bottom: 1px solid var(--grey);
     flex-shrink: 0;
+    font-size: 18px;
+    font-weight: 600;
 }
 
 .titleContainer h1 {
@@ -226,17 +228,6 @@ button span {
     box-shadow: 0 4px 8px rgba(128, 185, 173, 0.3);
 }
 
-/* Blue Button Styles */
-.postButtonContainer.blue button.active {
-    color: #4A90E2;
-}
-
-.postButtonContainer.blue button:hover {
-    color: #4A90E2;
-    background-color: rgba(74, 144, 226, 0.1);
-    box-shadow: 0 4px 8px rgba(74, 144, 226, 0.3);
-}
-
 /* General Styles for Reply */
 .postButtonContainer.orange button.active {
     color: #F5A623;
@@ -244,6 +235,7 @@ button span {
 
 .postButtonContainer.orange button:hover {
     color: #F5A623;
+    margin-top: var(--spacing); /*on hover adds spacing, remove later maybe*/
     background-color: rgba(245, 166, 35, 0.1);
     box-shadow: 0 4px 8px rgba(245, 166, 35, 0.3);
 }
@@ -458,4 +450,18 @@ button span {
 
     /* This rule is very important, please don't ignore this */
     max-width: 100%;
+}
+
+.pinButton.active {
+    color: rgb(74, 144, 226);
+}
+
+.pinnedPostText {
+    font-size: 14px;
+    font-weight: 400;
+    color: #3C5B6F;
+}
+
+.pinnedPostContainer {
+    border-bottom: 2px solid var(--blueLight);
 }
