@@ -8,7 +8,39 @@ const Post = require('../../schemas/PostsSchema');
 app.use(bodyParser.urlencoded({ extended: false }));
 
 router.get("/", async (req, res, next) => {
-    let results = await getPosts({});
+
+    let searchObj = req.query;
+
+    if (searchObj.isReply !== undefined) {
+        let isReply = searchObj.isReply == "true";
+        searchObj.replyTo = { $exists: isReply };
+        delete searchObj.isReply;
+    }
+
+    if (searchObj.followingOnly !== undefined) {
+        let followingOnly = searchObj.followingOnly == "true";
+
+        if (followingOnly) {
+            let objectIds = [];
+
+            if (!req.session.user.following) {
+                req.session.user.following = []
+            }
+
+            req.session.user.following.forEach(user => {
+                objectIds.push(user)
+            })
+
+            objectIds.push(req.session.user._id);
+            searchObj.postedBy = { $in: objectIds };
+        }
+
+
+        delete searchObj.followingOnly;
+
+    }
+
+    let results = await getPosts(searchObj);
     res.status(200).send(results);
 })
 
@@ -136,11 +168,11 @@ router.post("/:id/retweet", async (req, res, next) => {
 
 router.delete("/:id", (req, res, next) => {
     Post.findByIdAndDelete(req.params.id)
-    .then(() => res.sendStatus(202))
-    .catch(e => {
-        console.log(e);
-        res.sendStatus(400);
-    })
+        .then(() => res.sendStatus(202))
+        .catch(e => {
+            console.log(e);
+            res.sendStatus(400);
+        })
 })
 
 async function getPosts(filter) {

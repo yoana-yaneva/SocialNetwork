@@ -1,3 +1,5 @@
+let cropper;
+
 $("#postTextarea, #replyTextarea").keyup((event) => {
     let textbox = $(event.target);
     let value = textbox.val().trim();
@@ -75,11 +77,61 @@ $("#deletePostButton").click((event) => {
     $.ajax({
         url: `/api/posts/${postId}`,
         type: "DELETE",
-        success: () => {
+        success: (data, status, xhr) => {
+
+            if (xhr.status != 202) {
+                alert("could not delete post");
+                return;
+            }
+
             location.reload();
         }
     })
 
+
+})
+
+$("#filePhoto").change(function () {
+    if (this.files && this.files[0]) {
+        var reader = new FileReader();
+        reader.onload = (e) => {
+            var image = document.getElementById("imagePreview");
+            image.src = e.target.result;
+            if (cropper !== undefined) {
+                cropper.destroy();
+            }
+            cropper = new Cropper(image, {
+                aspectRatio: 1 / 1,
+                background: false
+            });
+        }
+        reader.readAsDataURL(this.files[0]);
+    }
+    else {
+        console.log("nope")
+    }
+})
+
+$("#imageUploadButton").click(() => {
+    let canvas = cropper.getCroppedCanvas();
+    if (canvas == null) {
+        alert("Could not upload image.")
+        return;
+    }
+
+    canvas.toBlob((blob) => {
+        let formData = new FormData();
+        formData.append("croppedImage", blob);
+
+        $.ajax({
+            url: "/api/users/profilePicture",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: () => location.reload()
+        })
+    })
 })
 
 $(document).on("click", ".likeButton", (event) => {
@@ -133,6 +185,40 @@ $(document).on("click", ".post", (event) => {
     if (postId !== undefined && !element.is("button")) {
         window.location.href = '/posts/' + postId;
     }
+})
+
+$(document).on("click", ".followButton", (e) => {
+    let button = $(e.target);
+    let userId = button.data().user;
+
+    $.ajax({
+        url: `/api/users/${userId}/follow`,
+        type: "PUT",
+        success: (data, status, xhr) => {
+            if (xhr.status == 404) {
+                return console.log("User not found")
+            }
+
+            let difference = 1;
+
+            if (data.following && data.following.includes(userId)) {
+                button.addClass("following");
+                button.text("Following")
+            } else {
+                button.removeClass("following")
+                button.text("Follow")
+                difference = -1;
+            }
+
+            let followersLabel = $("#followersValue");
+
+            if (followersLabel.length != 0) {
+                let followersText = followersLabel.text();
+                followersText = parseInt(followersText)
+                followersLabel.text(followersText + difference)
+            }
+        }
+    })
 })
 
 function getPostIdFromElement(element) {
