@@ -1,4 +1,6 @@
 let cropper;
+let timer;
+let selectedUsers = [];
 
 $("#postTextarea, #replyTextarea").keyup((event) => {
     let textbox = $(event.target);
@@ -223,6 +225,45 @@ $("#coverPhotoButton").click(() => {
             contentType: false,
             success: () => location.reload()
         })
+    })
+})
+
+$("#userSearchTextbox").keydown((e) => {
+    clearTimeout(timer);
+    let textbox = $(e.target);
+    let value = textbox.val();
+
+    if (value == "" && (e.which == 8 || e.keyCode == 8)) {
+        selectedUsers.pop()
+        updateSelectedUsersHtml();
+        $(".resultsContainer").html("");
+
+        if (selectedUsers.length == 0) {
+            $("#createChatButton").prop("disabled", true)
+        }
+
+        return;
+    }
+
+    timer = setTimeout(() => {
+        value = textbox.val().trim();
+
+        if (value == "") {
+            $(".resultsContainer").html("")
+        } else {
+            searchUsers(value)
+        }
+    }, 1000);
+
+
+})
+
+$("#createChatButton").click(() => {
+    let data = JSON.stringify(selectedUsers);
+
+    $.post("/api/chats", { users: data }, chat => {
+
+        window.location.href = `/messages/${chat._id}`
     })
 })
 
@@ -539,4 +580,54 @@ function createUserHtml(userData, showFollowButton) {
                 </div>
                 ${followButton}
             </div>`
+}
+
+function searchUsers(searchTerm) {
+    $.get("/api/users", { search: searchTerm }, results => {
+        //not showing the same user that's already added in the chat
+        outputSelectableUsers(results, $(".resultsContainer"))
+    })
+}
+
+function outputSelectableUsers(results, container) {
+    container.html("");
+
+    results.forEach(result => {
+
+        if (result._id == userLoggedIn._id || selectedUsers.some(u => u._id == result._id)) {
+            return;
+        }
+
+        let html = createUserHtml(result, true);
+        let element = $(html);
+        element.click(() => userSelected(result))
+        container.append(element);
+    })
+
+    if (results.length == 0) {
+        container.append("<span class='noResults'>No results here.</span>")
+    }
+
+}
+
+function userSelected(user) {
+    selectedUsers.push(user);
+    updateSelectedUsersHtml();
+    $("#userSearchTextbox").val("").focus();
+    $(".resultsContainer").html("");
+    $("#createChatButton").prop("disabled", false)
+}
+
+function updateSelectedUsersHtml() {
+    let elements = [];
+
+    selectedUsers.forEach(user => {
+        let name = user.firstName + " " + user.lastName;
+        let userElement = $(`<span class='selectedUser'>${name}</span>`);
+        elements.push(userElement)
+    })
+
+    $(".selectedUser").remove();
+    $("#selectedUsers").prepend(elements);
+
 }

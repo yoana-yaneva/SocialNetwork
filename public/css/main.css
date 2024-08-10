@@ -1,7 +1,9 @@
 :root {
     --blue: #102C57;
     --blueLight: #3C5B6F;
+    --blueDark: #081A3C; 
     --grey: rgb(230, 236, 240);
+    --gray: #ddd; 
     --spacing: 15px;
 }
 
@@ -484,4 +486,53 @@ button span {
     padding: 5px 15px 5px 40px;
     border-radius: 50px;
     color: var(--blueDark);
+}
+
+.chatPageContainer{
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.chatTitleBar {
+    border-bottom: 1px solid var(--blueLight);
+    display: flex;
+    align-items: center;
+    min-height: 60px;
+    padding: 10px;
+}
+
+.chatTitleBar label {
+    margin: 0 10px 0 0;
+}
+
+#userSearchTextbox {
+    border: none;
+    flex: 1;
+    font-weight: 300;
+    min-width: 350px;
+}
+
+#createChatButton {
+    border: 1px solid var(--blueDark); /* Set a proper border */
+    background-color: var(--blueDark);
+    color: var(--grey); /* Use the defined --grey variable */
+    padding: 7px 20px;
+    margin: 10px auto;
+    border-radius: 40px;
+}
+
+#createChatButton:disabled {
+    background-color: var(--grey);
+    color: var(--blueDark);
+}
+
+.selectedUser {
+    font-weight: 400;
+    background-color: #CBE5FE;
+    color: #0084ff;
+    padding: 5px;
+    border-radius: 3px;
+    margin: 5px 5px 0 0;
+    display: inline-block;
 }

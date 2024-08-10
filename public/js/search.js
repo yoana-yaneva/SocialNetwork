@@ -1,4 +1,4 @@
-let timer;
+
 
 $("#searchBox").keydown((e) => {
     clearTimeout(timer);
